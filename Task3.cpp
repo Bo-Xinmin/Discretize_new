@@ -18,10 +18,17 @@ int main()
 
   Domain D(L1,L2,L3,L4);
   D.generate_grid(8,4);//number of inner nodes
+  D.Output();
 
-  GFkt u(&D),up(&D);
+  GFkt u(&D),up(&D),ux(&D),uy(&D);
   up=u.discretize(&func);
-  up.show();
-  up.Output();
+  ux=up.dx();
+  ux.show();
+  char* name1="dx.bin";
+  ux.Output(name1);
+
+  uy=up.dy();
+  char* name2="dy.bin";
+  uy.Output(name2);
   return 1;
 }

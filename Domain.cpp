@@ -126,9 +126,9 @@ void Domain::Output()
 {
   FILE *fp;
   //fp=fopen("outfile.bin","wb");
-  fp=fopen("output.bin","wb");
+  fp=fopen("Domain.bin","wb");
   fwrite(x,sizeof(double),(m+1)*(n+1),fp);
-  // fwrite(y,sizeof(double),(m+1)*(n+1),fp);
+  fwrite(y,sizeof(double),(m+1)*(n+1),fp);
   fclose(fp);
 }
 double Domain::X(int ix,int iy)

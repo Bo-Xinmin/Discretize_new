@@ -22,10 +22,16 @@
   u_ksi=(   value(i+1,j)-  value(i-1,j) )*(m+1)/2;
 #define derivative_x(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
-  tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*x_ksi-u_eta*y_ksi);//this maybe wrong
+  tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*y_eta-u_eta*y_ksi);
+//tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*x_ksi-u_eta*y_ksi);//this maybe wrong
+  
+  
 #define derivative_y(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
-  tmp.u[i+j*(m+1)]=1/detJ*(u_eta*y_eta-u_ksi*y_eta);//this maybe wrong
+  tmp.u[i+j*(m+1)]=1/detJ*(-u_ksi*x_eta+u_eta*x_ksi);
+//tmp.u[i+j*(m+1)]=1/detJ*(u_eta*y_eta-u_ksi*y_eta);//this maybe wrong
+  
+  
   
 
 GFkt::GFkt(Domain *grid_):m(0),n(0),dimension(0),u(nullptr),grid(grid_)
@@ -184,11 +190,11 @@ GFkt GFkt::dx()
   boundary_y(0,0,+1);
   derivative_x(0,0)
   //i=0,j=n
-  boundary_x(0,n,-1);
+  boundary_x(0,n,+1);
   boundary_y(0,n,-1);
   derivative_x(0,n);
   //i=m,j=0
-  boundary_x(m,0,+1);
+  boundary_x(m,0,-1);
   boundary_y(m,0,+1);
   derivative_x(m,0);
   //i=m,j=n
@@ -237,11 +243,11 @@ GFkt GFkt::dy()
   derivative_y(0,0)
   //i=0,j=n
   boundary_x(0,n,-1);
-  boundary_y(0,n,-1);
+  boundary_y(0,n,+1);
   derivative_y(0,n);
   //i=m,j=0
   boundary_x(m,0,+1);
-  boundary_y(m,0,+1);
+  boundary_y(m,0,-1);
   derivative_y(m,0);
   //i=m,j=n
   boundary_x(m,n,-1);
@@ -281,11 +287,11 @@ GFkt GFkt::discretize(FunctionPointer f)
   return std::move(tmp);
 }
 
-void GFkt::Output()
+void GFkt::Output(const char *name)
 {
   FILE *fp;
-  //fp=fopen("outfile.bin","wb");
-  fp=fopen("output.bin","wb");
+  //fp=fopen("discretization.bin","wb");
+  fp=fopen(name,"wb");
   fwrite(u,sizeof(double),(m+1)*(n+1),fp);
   fclose(fp);
 }

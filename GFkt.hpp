@@ -21,6 +21,6 @@ public:
   GFkt Laplacian();
   void show();
   GFkt discretize(FunctionPointer f);
-  void Output();
+  void Output(const char*);
 };
 #endif
