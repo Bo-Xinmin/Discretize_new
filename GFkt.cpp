@@ -38,7 +38,7 @@ GFkt::GFkt(Domain *grid_):m(0),n(0),dimension(0),u(nullptr),grid(grid_)
   n=grid->ysize();
   dimension=(m+1)*(n+1);
   u=new double[dimension];
-  std::fill(u,u+dimension,1.0);
+  std::fill(u,u+dimension,0.0);
 }
 
 GFkt::GFkt(const GFkt& U):u(nullptr),grid(U.grid)
@@ -245,7 +245,6 @@ GFkt GFkt::discretize(FunctionPointer f)
 void GFkt::Output(const char *name)
 {
   FILE *fp;
-  //fp=fopen("discretization.bin","wb");
   fp=fopen(name,"wb");
   fwrite(u,sizeof(double),(m+1)*(n+1),fp);
   fclose(fp);

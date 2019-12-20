@@ -20,12 +20,22 @@ int main()
   D.generate_grid(8,4);//number of inner nodes
   D.Output();
 
-  GFkt u(&D),up(&D),ux(&D),uy(&D);
+  GFkt u(&D),up(&D),ux(&D),uy(&D),uL(&D);
+  u.show();
+  
   up=u.discretize(&func);
+  up.show();
+
+  ux=up.dx();
+  ux.show();
+  ux.Output("dx.bin");
 
   uy=up.dy();
-  u.show();
   uy.show();
   uy.Output("dy.bin");
+
+  uL=up.Laplacian();
+  uL.show();
+  uL.Output("Laplace.bin");
   return 1;
 }
