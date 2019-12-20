@@ -22,13 +22,10 @@ int main()
 
   GFkt u(&D),up(&D),ux(&D),uy(&D);
   up=u.discretize(&func);
-  ux=up.dx();
-  ux.show();
-  char* name1="dx.bin";
-  ux.Output(name1);
 
   uy=up.dy();
-  char* name2="dy.bin";
-  uy.Output(name2);
+  u.show();
+  uy.show();
+  uy.Output("dy.bin");
   return 1;
 }

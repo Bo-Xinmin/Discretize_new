@@ -23,13 +23,11 @@
 #define derivative_x(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
   tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*y_eta-u_eta*y_ksi);
-//tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*x_ksi-u_eta*y_ksi);//this maybe wrong
   
   
 #define derivative_y(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
   tmp.u[i+j*(m+1)]=1/detJ*(-u_ksi*x_eta+u_eta*x_ksi);
-//tmp.u[i+j*(m+1)]=1/detJ*(u_eta*y_eta-u_ksi*y_eta);//this maybe wrong
   
   
   
@@ -118,70 +116,27 @@ GFkt GFkt::dx()
       //inner points
       for(int i=1;i<m;i++)
       {
-	/*x_ksi=( grid->X(i+1,j)-grid->X(i-1,j) )*(m+1)/2;
-	y_ksi=( grid->Y(i+1,j)-grid->Y(i-1,j) )*(m+1)/2;
-	u_ksi=(   value(i+1,j)-  value(i-1,j) )*(m+1)/2;*/
 	inner_ksi(j);
-	/*x_eta=( grid->X(i,j+1)-grid->X(i,j-1) )*(n+1)/2;
-	y_eta=( grid->Y(i,j+1)-grid->Y(i,j-1) )*(n+1)/2;
-	u_eta=(   value(i,j+1)-  value(i,j-1) )*(n+1)/2;*/
 	inner_eta(i);
 	derivative_x(i,j);
       }
       //i=0
-      /*
-      x_ksi=(3*grid->X(0,j)-4*grid->X(1,j)+grid->X(2,j))*(m+1)/3;
-      y_ksi=(3*grid->Y(0,j)-4*grid->Y(1,j)+grid->Y(2,j))*(m+1)/3;
-      u_ksi=(3*  value(0,j)-4*  value(1,j)+  value(2,j))*(m+1)/3;
-      */
       boundary_x(0,j,+1);
-      /*
-      x_eta=( grid->X(0,j+1)-grid->X(0,j-1) )*(n+1)/2;
-      y_eta=( grid->Y(0,j+1)-grid->Y(0,j-1) )*(n+1)/2;
-      u_eta=(   value(0,j+1)-  value(0,j-1) )*(n+1)/2;
-      */
       inner_eta(0);
       derivative_x(0,j);
       //i=m i.e. largest
-      /*
-      x_ksi=(3*grid->X(m,j)-4*grid->X(m-1,j)+grid->X(m-2,j))*(m+1)/3;
-      y_ksi=(3*grid->Y(m,j)-4*grid->Y(m-1,j)+grid->Y(m-2,j))*(m+1)/3;
-      u_ksi=(3*  value(m,j)-4*  value(m-1,j)+  value(m-2,j))*(m+1)/3;
-      */
       boundary_x(m,j,-1);
-      /*
-      x_eta=(  grid->X(m,j+1)-grid->X(m,j-1) )*(n+1)/2;
-      y_eta=(  grid->Y(m,j+1)-grid->Y(m,j-1) )*(n+1)/2;
-      u_eta=(    value(m,j+1)-  value(m,j-1) )*(n+1)/2;*/
       inner_eta(m);
       derivative_x(m,j)
     }
   for(int i=1;i<m;i++)
     {
       //j=0
-      /*
-      x_eta=(3*grid->X(i,0)-4*grid->X(i,1)+grid->X(i,2))*(n+1)/3;
-      y_eta=(3*grid->Y(i,0)-4*grid->Y(i,1)+grid->Y(i,2))*(n+1)/3;
-      u_eta=(3*  value(i,0)-4*  value(i,1)+  value(i,2))*(n+1)/3;
-      */
       boundary_y(i,0,+1);
-      /*
-      x_ksi=( grid->X(i+1,0)-grid->X(i-1,0) )*(m+1)/2;
-      y_ksi=( grid->Y(i+1,0)-grid->Y(i-1,0) )*(m+1)/2;
-      u_ksi=(   value(i+1,0)-  value(i-1,0) )*(m+1)/2;*/
       inner_ksi(0);
       derivative_x(i,0);
       //j=n i.e.largest
-      /*
-      x_eta=(3*grid->X(i,n)-4*grid->X(i,n-1)+grid->X(i,n-2))*(n+1)/3;
-      y_eta=(3*grid->Y(i,n)-4*grid->Y(i,n-1)+grid->Y(i,n-2))*(n+1)/3;
-      u_eta=(3*  value(i,n)-4*  value(i,n-1)+  value(i,n-2))*(n+1)/3;
-      */
       boundary_y(i,n,-1);
-      /*
-      x_ksi=( grid->X(i+1,n)-grid->X(i-1,n) )*(m+1)/2;
-      y_ksi=( grid->Y(i+1,n)-grid->Y(i-1,n) )*(m+1)/2;
-      u_ksi=(   value(i+1,n)-  value(i-1,n) )*(m+1)/2;*/
       inner_ksi(n);
       derivative_x(i,n);
     }
@@ -242,12 +197,12 @@ GFkt GFkt::dy()
   boundary_y(0,0,+1);
   derivative_y(0,0)
   //i=0,j=n
-  boundary_x(0,n,-1);
-  boundary_y(0,n,+1);
+  boundary_x(0,n,+1);
+  boundary_y(0,n,-1);
   derivative_y(0,n);
   //i=m,j=0
-  boundary_x(m,0,+1);
-  boundary_y(m,0,-1);
+  boundary_x(m,0,-1);
+  boundary_y(m,0,+1);
   derivative_y(m,0);
   //i=m,j=n
   boundary_x(m,n,-1);
