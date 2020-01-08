@@ -37,84 +37,33 @@ public:
   {
     length = integrate(b);
   }
-  ~LowerCurve(){};
+  ~LowerCurve(){}
 };
 
-class LeftCurve:public Curvebase
+class StraightLine:public Curvebase
 {
+  double ax,bx,ay,by;
   double xp(double p)
   {
-    return -10.0;
+    return ax*p+bx;
   }
   double yp(double p)
   {
-      return p;
+    return ay*p+by;
   }
   double dxp(double p)
   {
-    return 0.0;
+    return ax;
   }
   double dyp(double p)
   {
-      return 1.0;
+    return ay;
   }
 public:
-  LeftCurve(double a,double b):Curvebase(a,b)
+  StraightLine(double ax_,double bx_,double ay_,double by_,double a,double b):Curvebase(a,b),ax(ax_),bx(bx_),ay(ay_),by(by_)
   {
     length = integrate(b);
   }
-  ~LeftCurve(){};
-};
-
-class RightCurve:public Curvebase
-{
-  double xp(double p)
-  {
-    return 5.0;
-  }
-  double yp(double p)
-  {
-      return p;
-  }
-  double dxp(double p)
-  {
-    return 0.0;
-  }
-  double dyp(double p)
-  {
-      return 1.0;
-  }
-public:
-  RightCurve(double a,double b):Curvebase(a,b)
-  {
-    length = integrate(b);
-  }
-  ~RightCurve(){};
-};
-
-class UpperCurve:public Curvebase
-{
-  double xp(double p)
-  {
-      return p;
-  }
-  double yp(double p)
-  {
-    return 3.0;
-  }
-  double dxp(double p)
-  {
-      return 1.0;;
-  }
-  double dyp(double p)
-  {
-    return 0.0;
-  }
-public:
-  UpperCurve(double a,double b):Curvebase(a,b)
-  {
-    length = integrate(b);
-  }
-  ~UpperCurve(){};
+  ~StraightLine(){}
 };
 #endif

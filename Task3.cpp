@@ -11,31 +11,31 @@ double func(double x,double y)
 }
 int main()
 {
-  LeftCurve L1(0.0,3.0);
-  RightCurve L2(0.0,3.0);
-  LowerCurve L3(-10.0,5.0);
-  UpperCurve L4(-10.0,5.0);
+  StraightLine Left(0.0,-10.0,1.0,0.0,0.0,3.0);
+  StraightLine Right(0.0,5.0,1.0,0.0,0.0,3.0);
+  LowerCurve Lower(-10.0,5.0);
+  StraightLine Upper(1.0,0.0,0.0,3.0,-10.0,5.0);
 
-  Domain D(L1,L2,L3,L4);
+  Domain D(Left,Right,Lower,Upper);
   D.generate_grid(8,4);//number of inner nodes
   D.Output();
 
   GFkt u(&D),up(&D),ux(&D),uy(&D),uL(&D);
-  u.show();
+  //u.show();
   
   up=u.discretize(&func);
-  up.show();
-
+  //up.show();
+  
   ux=up.dx();
-  ux.show();
+  //ux.show();
   ux.Output("dx.bin");
-
+  
   uy=up.dy();
-  uy.show();
+  //uy.show();
   uy.Output("dy.bin");
 
   uL=up.Laplacian();
-  uL.show();
+  //uL.show();
   uL.Output("Laplace.bin");
-  return 1;
+  return 0;
 }

@@ -16,11 +16,12 @@ public:
   GFkt& operator=(const GFkt&);
   GFkt operator+(const GFkt&) const;
   GFkt operator*(const double) const;
+  friend GFkt operator*(double,const GFkt&);
   GFkt dx();
   GFkt dy();
   GFkt Laplacian();
   void show();
-  GFkt discretize(FunctionPointer f);
+  GFkt discretize(FunctionPointer f) const;
   void Output(const char*);
 };
 #endif

@@ -23,8 +23,6 @@
 #define derivative_x(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
   tmp.u[i+j*(m+1)]=1/detJ*(u_ksi*y_eta-u_eta*y_ksi);
-  
-  
 #define derivative_y(i,j)\
   detJ=x_ksi * y_eta - y_ksi * x_eta;\
   tmp.u[i+j*(m+1)]=1/detJ*(-u_ksi*x_eta+u_eta*x_ksi);
@@ -106,11 +104,16 @@ GFkt GFkt::operator*(const double a) const
   return std::move(tmp);
 }
 
+GFkt operator*(double a,const GFkt& Q)
+{
+  GFkt tmp=Q*a;
+  return std::move(tmp);
+}
 GFkt GFkt::dx()
 {
   GFkt tmp(grid);//temporary for result
   double x_ksi,y_ksi,u_ksi,x_eta,y_eta,u_eta,detJ;
-  //except for four corner points
+
   for(int j=1;j<n;j++)
     {
       //inner points
@@ -214,9 +217,12 @@ GFkt GFkt::dy()
 GFkt GFkt::Laplacian()
 {
   GFkt ux(grid),uxx(grid),uy(grid),uyy(grid),tmp(grid);
-  ux=dx();uy=dy();
-  uxx=ux.dx();uyy=uy.dy();
+  ux=dx();
+  uy=dy();
+  uxx=ux.dx();
+  uyy=uy.dy();
   tmp=uxx+uyy;
+
   return std::move(tmp);
 }
 
@@ -231,7 +237,7 @@ void GFkt::show()
     }
 }
 
-GFkt GFkt::discretize(FunctionPointer f)
+GFkt GFkt::discretize(FunctionPointer f) const
 {
   GFkt tmp(grid);
   for(int i=0;i<m+1;i++)

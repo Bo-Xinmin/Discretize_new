@@ -7,7 +7,6 @@
 #include "Domain.hpp"
 // Constructor
 Domain::Domain(Curvebase& s1,Curvebase& s2,Curvebase& s3,Curvebase& s4)
-//Domain::Domain(LeftCurve& s1, RightCurve& s2, LowerCurve& s3, UpperCurve& s4)
 {
   sides[0]=&s1;//Left
   sides[1]=&s2;//Right
@@ -19,7 +18,7 @@ Domain::Domain(Curvebase& s1,Curvebase& s2,Curvebase& s3,Curvebase& s4)
 //Copy constructor
 Domain::Domain(const Domain& d):m(d.m),n(d.n),x(nullptr),y(nullptr)
 {
-  if(m>0)
+  if(m>0 && n>0)
     {
       x=new double[(m+1)*(n+1)];
       y=new double[(m+1)*(n+1)];
